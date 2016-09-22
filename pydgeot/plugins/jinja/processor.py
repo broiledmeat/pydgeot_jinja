@@ -36,8 +36,8 @@ class JinjaProcessor(Processor):
         # Set during prepare(), so extensions can get the processing file path
         self.current_path = None
         """:type: str | None"""
-        self._generate_paths = set()
-        """:type: set[str]"""
+        self._generate_paths = {}
+        """:type: dict[str, jinja2.nodes.Template]"""
 
     def can_process(self, path):
         """
@@ -72,7 +72,7 @@ class JinjaProcessor(Processor):
 
         # Add this to the list of paths to be generated if it's not template only
         if not template_only:
-            self._generate_paths.add(path)
+            self._generate_paths[path] = ast
 
     def generate(self, path):
         """
@@ -82,7 +82,8 @@ class JinjaProcessor(Processor):
             return
 
         target_path = self.target_path(path)
-        template = self._env.get_template(self.app.relative_path(path))
+        template = jinja2.environment.Template.from_code(self._env, self._env.compile(self._generate_paths[path]),
+                                                         self._env.make_globals(None))
 
         context_dict = {}
         source = self.app.sources.get_source(path)
@@ -97,7 +98,7 @@ class JinjaProcessor(Processor):
         os.makedirs(os.path.dirname(target_path), exist_ok=True)
         with open(target_path, 'w', encoding='utf-8') as fh:
             fh.write(template.render(**context_dict))
-        self._generate_paths.remove(path)
+        del self._generate_paths[path]
 
     def target_path(self, path):
         """
