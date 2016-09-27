@@ -9,7 +9,7 @@ setup(
     license='Apache License, Version 2.0',
     author='Derrick Staples',
     author_email='broiledmeat@gmail.com',
-    version='0.4',
+    version='0.5',
     packages=['pydgeot.plugins.jinja'],
     requires=['pydgeot', 'jinja2'],
     classifiers=[
