@@ -22,15 +22,23 @@ python setup.py install
 ```
 
 ### Configuration
-Add `jinja` to your pydgeot.conf `plugins` list.
+Add `jinja` to your pydgeot.conf `plugins` list to enable the plugin. Then add `jinja` to the `processors` list in
+pydgeot.conf, or nested .pydgeot.conf's, to use the file processor. Options are, also, placed under a `jinja` key.
+- `source_ext` Extension of source files to build. _Default: .html_
+- `build_ext` Extension of built files. _Default: .html_
 ```json
 {
-  "plugins": ["jinja"]
+  "plugins": ["jinja"],
+  "processors": ["jinja"],
+  "jinja" {
+    "source_ext": ".jinja"
+  }
 }
 ```
 
 ### Usage
-The Jinja2 plugin will process any `.html` file as a Jinja2 template.
+The Jinja2 plugin will process any `.html` (or `source_ext` extension specified in pydgeot.conf) file as a Jinja2
+template.
 
 A page may be marked as template only by setting the `template_only` variable to `True`. This will cause the file to not
 be generated, but any changes will still cause dependent files to be generated.
@@ -44,7 +52,7 @@ been created with the standard Jinja `set`.
 
 Context variables may be created with the same names across multiple sources, so global access is done iteratively.
 `getcontexts(name, "value")` will retrieve a list of files that have set a context variable matching the name and value.
-The value may be a [glob pattern](https://github.com/broiledmeat/pydgeot/blob/develop/README.md#glob-patterns).
+The value may be a [glob pattern](https://github.com/broiledmeat/pydgeot#glob-patterns).
 
 For example, `{% for page in getcontexts("fullname", "test.*") %}` would find any file with context variables named
 "fullname" with values starting with "test.", then grab all of that files context variables and set them as properties
