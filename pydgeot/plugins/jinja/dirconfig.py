@@ -4,7 +4,7 @@ from pydgeot.app.dirconfig import BaseDirConfig
 class DirConfig(BaseDirConfig):
     _config_key = 'jinja'
     _default_config = {
-        'template_ext': '.html',
+        'source_ext': '.html',
         'build_ext': '.html'
     }
 
@@ -13,7 +13,7 @@ class DirConfig(BaseDirConfig):
         :type app: pydgeot.app.App
         :type path: str
         """
-        self.template_ext = None
+        self.source_ext = None
         """:type: str | None"""
         self.build_ext = None
         """:type: str | None"""
@@ -28,7 +28,7 @@ class DirConfig(BaseDirConfig):
         """
         config = config.get(DirConfig._config_key, {})
 
-        for name in ('template_ext', 'build_ext'):
+        for name in ('source_ext', 'build_ext'):
             value = config.pop(name, None)
             if value is None:
                 value = self._default_config.get(name) if parent is None else getattr(parent, name)

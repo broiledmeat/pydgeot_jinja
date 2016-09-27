@@ -46,7 +46,7 @@ class JinjaProcessor(Processor):
         """
         from .dirconfig import DirConfig
         config = DirConfig.get(self.app, path)
-        return path.endswith(config.template_ext)
+        return path.endswith(config.source_ext)
 
     def prepare(self, path):
         """
@@ -107,7 +107,7 @@ class JinjaProcessor(Processor):
         """
         from .dirconfig import DirConfig
         config = DirConfig.get(self.app, path)
-        path = path[:-len(config.template_ext)] + config.build_ext
+        path = path[:-len(config.source_ext)] + config.build_ext
         return self.app.target_path(path)
 
     @staticmethod
