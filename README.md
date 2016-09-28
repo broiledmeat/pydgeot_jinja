@@ -15,6 +15,12 @@ other templates, which will also affect the regeneration.
 - [Jinja2](https://github.com/mitsuhiko/jinja2)
 
 ### Installation
+Via pip:
+```bash
+pip install pydgeot_jinja
+```
+
+Or via source:
 ```bash
 git clone https://github.com/broiledmeat/pydgeot_jinja.git pydgeot_jinja
 cd pydgeot_jinja
